@@ -1,0 +1,702 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListScroller component with 1000 items corrects spacer margin on scrolling up 1`] = `
+<div
+  style="height: 18750px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(1875px);"
+  >
+    <div
+      data-item-index="92"
+    >
+      92 92
+    </div>
+    <div
+      data-item-index="93"
+    >
+      93 93
+    </div>
+    <div
+      data-item-index="94"
+    >
+      94 94
+    </div>
+    <div
+      data-item-index="95"
+    >
+      95 95
+    </div>
+    <div
+      data-item-index="96"
+    >
+      96 96
+    </div>
+    <div
+      data-item-index="97"
+    >
+      97 97
+    </div>
+    <div
+      data-item-index="98"
+    >
+      98 98
+    </div>
+    <div
+      data-item-index="99"
+    >
+      99 99
+    </div>
+    <div
+      data-item-index="100"
+    >
+      100 100
+    </div>
+    <div
+      data-item-index="101"
+    >
+      101 101
+    </div>
+    <div
+      data-item-index="102"
+    >
+      102 102
+    </div>
+    <div
+      data-item-index="103"
+    >
+      103 103
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items handles horisontal resize 1`] = `
+<div
+  style="height: 30000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(4500px);"
+  >
+    <div
+      data-item-index="150"
+    >
+      150 150
+    </div>
+    <div
+      data-item-index="151"
+    >
+      151 151
+    </div>
+    <div
+      data-item-index="152"
+    >
+      152 152
+    </div>
+    <div
+      data-item-index="153"
+    >
+      153 153
+    </div>
+    <div
+      data-item-index="154"
+    >
+      154 154
+    </div>
+    <div
+      data-item-index="155"
+    >
+      155 155
+    </div>
+    <div
+      data-item-index="156"
+    >
+      156 156
+    </div>
+    <div
+      data-item-index="157"
+    >
+      157 157
+    </div>
+    <div
+      data-item-index="158"
+    >
+      158 158
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items handles vertical resize 1`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(3000px);"
+  >
+    <div
+      data-item-index="150"
+    >
+      150 150
+    </div>
+    <div
+      data-item-index="151"
+    >
+      151 151
+    </div>
+    <div
+      data-item-index="152"
+    >
+      152 152
+    </div>
+    <div
+      data-item-index="153"
+    >
+      153 153
+    </div>
+    <div
+      data-item-index="154"
+    >
+      154 154
+    </div>
+    <div
+      data-item-index="155"
+    >
+      155 155
+    </div>
+    <div
+      data-item-index="156"
+    >
+      156 156
+    </div>
+    <div
+      data-item-index="157"
+    >
+      157 157
+    </div>
+    <div
+      data-item-index="158"
+    >
+      158 158
+    </div>
+    <div
+      data-item-index="159"
+    >
+      159 159
+    </div>
+    <div
+      data-item-index="160"
+    >
+      160 160
+    </div>
+    <div
+      data-item-index="161"
+    >
+      161 161
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items renders first items according to itemHeight 1`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(0px);"
+  >
+    <div
+      data-item-index="0"
+    >
+      0 0
+    </div>
+    <div
+      data-item-index="1"
+    >
+      1 1
+    </div>
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+    <div
+      data-item-index="9"
+    >
+      9 9
+    </div>
+    <div
+      data-item-index="10"
+    >
+      10 10
+    </div>
+    <div
+      data-item-index="11"
+    >
+      11 11
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items updates if itemesData changed 1`] = `
+<div
+  style="height: 2000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(0px);"
+  >
+    <div
+      data-item-index="0"
+    >
+      0 0
+    </div>
+    <div
+      data-item-index="1"
+    >
+      1 1
+    </div>
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+    <div
+      data-item-index="9"
+    >
+      9 9
+    </div>
+    <div
+      data-item-index="10"
+    >
+      10 10
+    </div>
+    <div
+      data-item-index="11"
+    >
+      11 11
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items uses approximate heights on fast scrolling 1`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(2000px);"
+  >
+    <div
+      data-item-index="100"
+    >
+      100 100
+    </div>
+    <div
+      data-item-index="101"
+    >
+      101 101
+    </div>
+    <div
+      data-item-index="102"
+    >
+      102 102
+    </div>
+    <div
+      data-item-index="103"
+    >
+      103 103
+    </div>
+    <div
+      data-item-index="104"
+    >
+      104 104
+    </div>
+    <div
+      data-item-index="105"
+    >
+      105 105
+    </div>
+    <div
+      data-item-index="106"
+    >
+      106 106
+    </div>
+    <div
+      data-item-index="107"
+    >
+      107 107
+    </div>
+    <div
+      data-item-index="108"
+    >
+      108 108
+    </div>
+    <div
+      data-item-index="109"
+    >
+      109 109
+    </div>
+    <div
+      data-item-index="110"
+    >
+      110 110
+    </div>
+    <div
+      data-item-index="111"
+    >
+      111 111
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items uses khown heights on slow scrolling 1`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(40px);"
+  >
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+    <div
+      data-item-index="9"
+    >
+      9 9
+    </div>
+    <div
+      data-item-index="10"
+    >
+      10 10
+    </div>
+    <div
+      data-item-index="11"
+    >
+      11 11
+    </div>
+    <div
+      data-item-index="12"
+    >
+      12 12
+    </div>
+    <div
+      data-item-index="13"
+    >
+      13 13
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items uses khown heights on slow scrolling 2`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(100px);"
+  >
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+    <div
+      data-item-index="9"
+    >
+      9 9
+    </div>
+    <div
+      data-item-index="10"
+    >
+      10 10
+    </div>
+    <div
+      data-item-index="11"
+    >
+      11 11
+    </div>
+    <div
+      data-item-index="12"
+    >
+      12 12
+    </div>
+    <div
+      data-item-index="13"
+    >
+      13 13
+    </div>
+    <div
+      data-item-index="14"
+    >
+      14 14
+    </div>
+    <div
+      data-item-index="15"
+    >
+      15 15
+    </div>
+    <div
+      data-item-index="16"
+    >
+      16 16
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with 1000 items uses khown heights on slow scrolling 3`] = `
+<div
+  style="height: 20000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(20px);"
+  >
+    <div
+      data-item-index="1"
+    >
+      1 1
+    </div>
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+    <div
+      data-item-index="9"
+    >
+      9 9
+    </div>
+    <div
+      data-item-index="10"
+    >
+      10 10
+    </div>
+    <div
+      data-item-index="11"
+    >
+      11 11
+    </div>
+    <div
+      data-item-index="12"
+    >
+      12 12
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with smaller real item height updates sizes after rendering 1`] = `
+<div
+  style="height: 30000px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(0px);"
+  >
+    <div
+      data-item-index="0"
+    >
+      0 0
+    </div>
+    <div
+      data-item-index="1"
+    >
+      1 1
+    </div>
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+    <div
+      data-item-index="6"
+    >
+      6 6
+    </div>
+    <div
+      data-item-index="7"
+    >
+      7 7
+    </div>
+    <div
+      data-item-index="8"
+    >
+      8 8
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ListScroller component with two items renders correctly 1`] = `
+<div
+  style="height: 60px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(0px);"
+  >
+    <div
+      data-item-index="0"
+    >
+      0 1
+    </div>
+    <div
+      data-item-index="1"
+    >
+      1 2
+    </div>
+  </div>
+</div>
+`;
