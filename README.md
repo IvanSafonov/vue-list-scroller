@@ -63,7 +63,9 @@ export default {
 
 # Example
 
-You can clone this project and start example with these commands. It's in the dev folder.
+[JSFiddle](http://jsfiddle.net/ivansafonov/85z3q4pv/9/)
+
+You can clone this project and start example locally with these commands. It's in the dev folder.
 
 ```bash
 npm install
