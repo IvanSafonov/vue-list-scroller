@@ -6,7 +6,7 @@ It can help with creating Twitter-like feed with thousands of items. It renders 
 
 ## Notes
 
-* Only page mode
+* Only page mode. It does not work inside an overflow container
 * Uses ResizeObserver
 * Items can have any size and change dynamically
 * Items can have margins
