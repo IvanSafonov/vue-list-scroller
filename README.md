@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/IvanSafonov/vue-list-scroller/workflows/Node.js%20CI/badge.svg)
+
 # vue-list-scroller
 
 It can help with creating Twitter-like feed with thousands of items. It renders only visible part of the list.
