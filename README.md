@@ -8,7 +8,7 @@ It can help with creating Twitter-like feed with thousands of items. It renders 
 
 * Only page mode
 * Uses ResizeObserver
-* Items can have any size and change dynamicaly
+* Items can have any size and change dynamically
 * Items can have margins
 * Supports infinite scroll
 

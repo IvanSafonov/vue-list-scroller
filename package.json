@@ -1,6 +1,6 @@
 {
   "name": "vue-list-scroller",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple Vue.js component for efficiant rendering large lists",
   "homepage": "https://github.com/IvanSafonov/vue-list-scroller",
   "license": "MIT",

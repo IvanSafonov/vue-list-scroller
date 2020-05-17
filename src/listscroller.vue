@@ -25,7 +25,7 @@ export default {
     // Approximate item height (used at first render)
     itemHeight: { type: Number, required: true },
     // Vue js item component
-    itemComponent: { type: Object, required: true },
+    itemComponent: { type: [Object, Function], required: true },
     // Height of rendered part relative to viewport height
     renderViewports: { type: Number, default: 3 },
   },
