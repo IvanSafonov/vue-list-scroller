@@ -46,7 +46,7 @@ Add ListScroller component to your project
 </template>
 
 <script>
-import ListScroller from '@/listscroller'
+import ListScroller from 'vue-list-scroller'
 import Item from './item'
 
 export default {
