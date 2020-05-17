@@ -30,8 +30,10 @@ export default {
   padding: 1em;
   border: solid;
   border-width: 3px;
-}
-h1 {
-  // font-size: 1.5em;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 </style>

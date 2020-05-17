@@ -4,7 +4,7 @@
     <list-scroller
       :itemComponent="item"
       :itemsData="items"
-      :itemHeight="itemHeight"
+      :itemHeight="350"
       :renderViewports="5"
       class="list"
       @bottom="addMore"
@@ -38,7 +38,6 @@ export default {
     return {
       items: [],
       item: Item,
-      itemHeight: 120,
     }
   },
   methods: {

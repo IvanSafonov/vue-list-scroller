@@ -1,8 +1,8 @@
-const throttled = function(handler, timeout) {
+const throttled = function (handler, timeout) {
   if (!timeout) return handler
   let active = false
   let event = null
-  return function(e) {
+  return function (e) {
     event = e
     if (active) return
     active = true

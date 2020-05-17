@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import Item from './item'
 import ResizeObserver from './resizeobserver'
 jest.mock('./resizeobserver')
+import { cloneDeep } from 'lodash'
 
 const updateSizes = (expectedItems, clear = true) => {
   expect(ResizeObserver).toBeCalledTimes(1)
@@ -10,12 +11,16 @@ const updateSizes = (expectedItems, clear = true) => {
   expect(observe).toBeCalledTimes(expectedItems)
 
   ResizeObserver.mock.calls[0][0](
-    observe.mock.calls.map(v => {
+    observe.mock.calls.map((v) => {
       return { target: v[0] }
     }),
   )
   if (clear) observe.mockClear()
 }
+
+let height = 20
+const ScrollerMock = cloneDeep(ListScroller)
+ScrollerMock.methods.getItemHeight = jest.fn(() => height)
 
 const itemsData = []
 for (let i = 0; i < 1000; i++) itemsData[i] = { text: String(i) }
@@ -24,18 +29,20 @@ describe('ListScroller component', () => {
   const handler = {}
 
   beforeEach(() => {
+    height = 20
     window.ResizeObserver = ResizeObserver
     ResizeObserver.mockClear()
 
     window.addEventListener = jest.fn((event, func) => (handler[event] = func))
     jest.useFakeTimers()
     window.innerHeight = 70
+    window.scroll = jest.fn()
   })
 
   describe('with 1000 items', () => {
-    let wrapper, height, bounds, spacerBounds
+    let wrapper, bounds, spacerBounds
     const setItemBounds = (index, bounds) => {
-      const el = wrapper.findAll(Item).at(index).vm.$el
+      const el = wrapper.findAllComponents(Item).at(index).vm.$el
       el.getBoundingClientRect = jest.fn(() => {
         return bounds
       })
@@ -45,14 +52,13 @@ describe('ListScroller component', () => {
       jest.useFakeTimers()
       window.innerHeight = 70
       window.innerWidth = 50
-      height = 20
-      wrapper = mount(ListScroller, {
+
+      wrapper = mount(ScrollerMock, {
         propsData: {
           itemComponent: Item,
           itemsData,
           itemHeight: 20,
         },
-        methods: { getItemHeight: jest.fn(() => height) },
       })
 
       bounds = { bottom: 0 }
@@ -65,13 +71,13 @@ describe('ListScroller component', () => {
     })
 
     it('renders first items according to itemHeight', () => {
-      const items = wrapper.findAll(Item)
+      const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(12)
       expect(wrapper.element).toMatchSnapshot()
     })
 
     it('passes data and index to item component', () => {
-      const item10 = wrapper.findAll(Item).at(10).vm
+      const item10 = wrapper.findAllComponents(Item).at(10).vm
       expect(item10.data).toEqual({ text: '10' })
       expect(item10.index).toEqual(10)
     })
@@ -81,9 +87,9 @@ describe('ListScroller component', () => {
       const { observe, unobserve } = ResizeObserver.mock.instances[0]
       expect(observe).toBeCalledTimes(12)
       expect(unobserve).toBeCalledTimes(0)
-      const item0 = wrapper.findAll(Item).at(0).vm
+      const item0 = wrapper.findAllComponents(Item).at(0).vm
       expect(item0.index).toEqual(0)
-      const item7 = wrapper.findAll(Item).at(7).vm
+      const item7 = wrapper.findAllComponents(Item).at(7).vm
       expect(item7.index).toEqual(7)
       expect(observe).toBeCalledWith(item0.$el)
       expect(observe).toBeCalledWith(item7.$el)
@@ -101,11 +107,11 @@ describe('ListScroller component', () => {
       expect(unobserve).toBeCalledWith(item7.$el)
 
       expect(observe).toBeCalledTimes(8)
-      const item12 = wrapper.findAll(Item).at(4).vm
+      const item12 = wrapper.findAllComponents(Item).at(4).vm
       expect(item12.index).toEqual(12)
-      const item19 = wrapper.findAll(Item).at(11).vm
+      const item19 = wrapper.findAllComponents(Item).at(11).vm
       expect(item19.index).toEqual(19)
-      const item16 = wrapper.findAll(Item).at(8).vm
+      const item16 = wrapper.findAllComponents(Item).at(8).vm
       expect(item16.index).toEqual(16)
       expect(observe).toBeCalledWith(item12.$el)
       expect(observe).toBeCalledWith(item16.$el)
@@ -122,7 +128,7 @@ describe('ListScroller component', () => {
       expect(unobserve).toBeCalledWith(item16.$el)
       expect(unobserve).toBeCalledWith(item19.$el)
       expect(observe).toBeCalledTimes(5)
-      const item3 = wrapper.findAll(Item).at(0).vm
+      const item3 = wrapper.findAllComponents(Item).at(0).vm
       expect(item3.index).toEqual(3)
       expect(observe).toBeCalledWith(item3.$el)
     })
@@ -186,7 +192,6 @@ describe('ListScroller component', () => {
     })
 
     it('corrects spacer margin if its too big at start', async () => {
-      window.scroll = jest.fn()
       window.scrollY = 100
 
       // down by 130
@@ -334,20 +339,24 @@ describe('ListScroller component', () => {
   describe('with smaller real item height', () => {
     let wrapper
     beforeEach(() => {
-      wrapper = mount(ListScroller, {
+      height = 30
+      wrapper = mount(ScrollerMock, {
         propsData: {
           itemComponent: Item,
           itemsData,
           itemHeight: 40,
         },
-        methods: { getItemHeight: jest.fn(() => 30) },
       })
+
+      const bounds = { bottom: 0 }
+      wrapper.vm.$refs.list.getBoundingClientRect = jest.fn(() => bounds)
+      wrapper.vm.$refs.spacer.getBoundingClientRect = jest.fn(() => bounds)
     })
 
     it('updates sizes after rendering', async () => {
       updateSizes(6)
       await wrapper.vm.$nextTick()
-      const items = wrapper.findAll(Item)
+      const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(9)
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -356,18 +365,18 @@ describe('ListScroller component', () => {
   describe('with two items', () => {
     let wrapper
     beforeEach(() => {
-      wrapper = mount(ListScroller, {
+      height = 30
+      wrapper = mount(ScrollerMock, {
         propsData: {
           itemComponent: Item,
           itemsData: [{ text: '1' }, { text: '2' }],
           itemHeight: 30,
         },
-        methods: { getItemHeight: jest.fn(() => 30) },
       })
     })
 
     it('renders correctly', () => {
-      const items = wrapper.findAll(Item)
+      const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(2)
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -380,11 +389,10 @@ describe('ListScroller component', () => {
         itemsData,
         itemHeight: 20,
       },
-      methods: { updateHeights: jest.fn() },
     })
 
     const setBottom = (index, bottom) => {
-      const el = wrapper.findAll(Item).at(index).vm.$el
+      const el = wrapper.findAllComponents(Item).at(index).vm.$el
       el.getBoundingClientRect = jest.fn(() => {
         return { bottom }
       })

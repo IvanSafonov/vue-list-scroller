@@ -81,7 +81,7 @@ export default {
           2,
       )
 
-      const height = index => this.heights.get(index) || this.average
+      const height = (index) => this.heights.get(index) || this.average
       const heights = (index, down = false) => {
         let res = 0
         const max = index + preRendered + (down ? 1 : 0)
@@ -155,7 +155,7 @@ export default {
       let changed = false
       let spacerMargin = 0
 
-      entities.forEach(entity => {
+      entities.forEach((entity) => {
         const el = entity.target
         const idx = Number(el.dataset.itemIndex)
 
