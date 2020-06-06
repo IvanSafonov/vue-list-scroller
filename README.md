@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/IvanSafonov/vue-list-scroller/workflows/Node.js%20CI/badge.svg)
+[![tests](https://github.com/IvanSafonov/vue-list-scroller/workflows/tests/badge.svg)](https://github.com/IvanSafonov/vue-list-scroller/actions)
 
 # vue-list-scroller
 
