@@ -83,6 +83,13 @@ npm run serve
 
 * `bottom`: emits when the last item is rendered. Used for infinite scroll
 
+   **Note:** You need to disable [scroll anchoring](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor/Guide_to_scroll_anchoring) on the outer container. Without it after adding new items browser will scroll back to the bottom and bottom event will fire again.
+   ```css
+   .container {
+     overflow-anchor: none;
+   }
+   ```
+
 
 # Similar projects
 

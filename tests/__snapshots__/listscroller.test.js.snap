@@ -2,7 +2,7 @@
 
 exports[`ListScroller component with 1000 items corrects spacer margin on scrolling up 1`] = `
 <div
-  style="height: 18750px; position: relative; overflow: hidden;"
+  style="height: 20000px; position: relative; overflow: hidden;"
 >
   <div
     style="transform: translateY(1875px);"
@@ -76,7 +76,7 @@ exports[`ListScroller component with 1000 items handles horisontal resize 1`] = 
   style="height: 30000px; position: relative; overflow: hidden;"
 >
   <div
-    style="transform: translateY(4500px);"
+    style="transform: translateY(2880px);"
   >
     <div
       data-item-index="150"
@@ -129,10 +129,10 @@ exports[`ListScroller component with 1000 items handles horisontal resize 1`] = 
 
 exports[`ListScroller component with 1000 items handles vertical resize 1`] = `
 <div
-  style="height: 20000px; position: relative; overflow: hidden;"
+  style="height: 30000px; position: relative; overflow: hidden;"
 >
   <div
-    style="transform: translateY(3000px);"
+    style="transform: translateY(2880px);"
   >
     <div
       data-item-index="150"
@@ -178,21 +178,6 @@ exports[`ListScroller component with 1000 items handles vertical resize 1`] = `
       data-item-index="158"
     >
       158 158
-    </div>
-    <div
-      data-item-index="159"
-    >
-      159 159
-    </div>
-    <div
-      data-item-index="160"
-    >
-      160 160
-    </div>
-    <div
-      data-item-index="161"
-    >
-      161 161
     </div>
   </div>
 </div>

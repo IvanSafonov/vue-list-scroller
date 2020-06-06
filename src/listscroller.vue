@@ -114,9 +114,15 @@ export default {
     /**
      * Resize event handler
      * Clears known items' heights if window width changes
+     * Keeps visible heights
      */
     resizeHandler() {
-      if (!pxEq(this.innerWidth, window.innerWidth)) this.heights.clear()
+      if (!pxEq(this.prevWidth, this.width())) {
+        const old = this.heights
+        this.heights = new Map()
+        for (let i = this.start; i < this.end; i++)
+          if (old.has(i)) this.heights.set(i, old.get(i))
+      }
     },
 
     /**
@@ -179,11 +185,10 @@ export default {
         this.setStart(this.start)
       }
 
-      this.fixHeight()
-
-      const bottom = this.itemsData.length === this.end
-      if (bottom && !this.bottom) this.$emit('bottom')
-      this.bottom = this.itemsData.length === this.end
+      this.$nextTick(() => {
+        this.fixSpacerMargin()
+        this.fixHeight()
+      })
     },
 
     observe(from, to) {
@@ -203,7 +208,7 @@ export default {
      * Calculates end index and updates observed items in ResizeObserver
      */
     setStart(index) {
-      this.innerWidth = window.innerWidth
+      this.prevWidth = this.width()
       const count = Math.round(
         this.renderViewports * Math.ceil(window.innerHeight / this.average),
       )
@@ -211,6 +216,7 @@ export default {
       const prevEnd = this.end
       this.start = Math.max(index, 0)
       this.end = Math.min(this.start + count, this.itemsData.length)
+      if (prevStart === this.start && prevEnd === this.end) return
 
       if (this.start != prevStart || this.end != prevEnd)
         this.unobserve(0, Math.min(this.start, prevEnd) - prevStart)
@@ -220,9 +226,6 @@ export default {
           prevEnd - prevStart,
         )
 
-      this.fixSpacerMargin()
-      this.updateHeight()
-
       if (this.start < prevStart)
         this.observe(0, Math.min(prevStart, this.end) - this.start)
       if (prevEnd < this.end)
@@ -230,70 +233,55 @@ export default {
           Math.max(prevEnd, this.start) - this.start,
           this.end - this.start,
         )
-    },
 
-    getBottoms() {
-      const { list, spacer } = this.$refs
-      return spacer && list
-        ? [
-            spacer.getBoundingClientRect().bottom,
-            list.getBoundingClientRect().bottom,
-          ]
-        : [0, 0]
+      const bottom = this.itemsData.length === this.end
+      if (bottom && !this.bottom) this.$emit('bottom')
+      this.bottom = bottom
     },
 
     /**
      * Fixes spacerMargin errors
      */
     fixSpacerMargin() {
-      if (
-        (this.start === 0 && !pxEq(this.spacerMargin, 0)) ||
-        pxGt(0, this.spacerMargin)
-      ) {
+      if (this.start === 0) {
+        if (pxEq(this.spacerMargin, 0)) return
         window.scroll(0, window.scrollY - this.spacerMargin)
         this.spacerMargin = 0
-        return
-      }
-
-      const avMargin = this.spacerMargin - this.average * this.start
-      if (Math.abs(avMargin) > 0.05 * this.itemsData.length * this.average) {
+      } else if (pxGt(0, this.spacerMargin)) {
+        const avMargin = this.spacerMargin - this.average * this.start
         this.spacerMargin -= avMargin
         window.scroll(0, window.scrollY - avMargin)
       }
     },
 
     /**
-     * Updates list height according to average item height
-     * Updates only if the difference is more than 5%
+     * Fixes height error
      */
-    updateHeight() {
-      const avHeight = this.average * this.itemsData.length
-      const [btSpacer, btRoot] = this.getBottoms()
+    fixHeight() {
+      const { list, spacer } = this.$refs
+      const diff =
+        spacer.getBoundingClientRect().bottom -
+        list.getBoundingClientRect().bottom
 
-      if (
-        this.itemsData.length === 0 ||
-        Math.abs(this.height - avHeight) >
-          0.05 * this.itemsData.length * this.average ||
-        (this.itemsData.length !== this.end && pxGt(btSpacer, btRoot))
+      if (this.itemsData.length == this.end) {
+        if (pxEq(diff, 0)) return
+        this.height += diff
+      } else if (pxGt(diff, 0)) {
+        this.height = Math.max(
+          this.height + diff,
+          this.average * this.itemsData.length,
+        )
+      } else if (
+        Math.abs(this.height - this.average * this.itemsData.length) >
+        0.1 * this.itemsData.length * this.average
       ) {
-        this.height = avHeight
+        this.height = this.average * this.itemsData.length
       }
     },
 
-    /**
-     * Fixes height error when the bottom of the list is rendered
-     */
-    fixHeight(sync = false) {
-      if (!sync) return this.$nextTick(() => this.fixHeight(true))
-
-      const [btSpacer, btRoot] = this.getBottoms()
-      if (
-        (this.itemsData.length == this.end && pxGt(btRoot, btSpacer)) ||
-        pxGt(btSpacer, btRoot)
-      ) {
-        const fix = btSpacer - btRoot
-        this.height += fix
-      }
+    width() {
+      const { list } = this.$refs
+      return list ? list.getBoundingClientRect().width : 0
     },
   },
 

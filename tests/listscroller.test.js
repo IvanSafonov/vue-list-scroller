@@ -33,6 +33,7 @@ describe('ListScroller component', () => {
     window.ResizeObserver = ResizeObserver
     ResizeObserver.mockClear()
 
+    window.removeEventListener = jest.fn()
     window.addEventListener = jest.fn((event, func) => (handler[event] = func))
     jest.useFakeTimers()
     window.innerHeight = 70
@@ -51,7 +52,6 @@ describe('ListScroller component', () => {
     beforeEach(() => {
       jest.useFakeTimers()
       window.innerHeight = 70
-      window.innerWidth = 50
 
       wrapper = mount(ScrollerMock, {
         propsData: {
@@ -70,10 +70,35 @@ describe('ListScroller component', () => {
       )
     })
 
-    it('renders first items according to itemHeight', () => {
+    it('renders first items according to itemHeight', async () => {
       const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(12)
+      updateSizes(12)
+      await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
+    })
+
+    it('removes event listener after destroying', () => {
+      expect(window.addEventListener).toBeCalledTimes(2)
+      expect(window.addEventListener).toBeCalledWith(
+        'scroll',
+        expect.any(Function),
+      )
+      expect(window.addEventListener).toBeCalledWith(
+        'resize',
+        expect.any(Function),
+      )
+
+      wrapper.destroy()
+      expect(window.removeEventListener).toBeCalledTimes(2)
+      expect(window.removeEventListener).toBeCalledWith(
+        'scroll',
+        window.addEventListener.mock.calls[0][1],
+      )
+      expect(window.removeEventListener).toBeCalledWith(
+        'resize',
+        window.addEventListener.mock.calls[1][1],
+      )
     })
 
     it('passes data and index to item component', () => {
@@ -138,6 +163,7 @@ describe('ListScroller component', () => {
       bounds.top = -130
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
 
@@ -161,6 +187,7 @@ describe('ListScroller component', () => {
       bounds.top = -2000
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -198,6 +225,7 @@ describe('ListScroller component', () => {
       bounds.top = -130
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.spacerMargin).toBe(40)
       wrapper.vm.spacerMargin = 100
@@ -206,37 +234,35 @@ describe('ListScroller component', () => {
       bounds.top = 0
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(2)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.spacerMargin).toBe(0)
       expect(window.scroll).toBeCalledWith(0, 40)
     })
 
-    it('corrects spacer margin, rough', async () => {
-      updateSizes(12)
+    it('corrects space margin if its neganive', async () => {
       window.scroll = jest.fn()
       window.scrollY = 100
 
-      // down by 10000
-      bounds.top = -10000
+      // down by 300
+      bounds.top = -300
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.spacerMargin).toBe(10000)
+      expect(wrapper.vm.spacerMargin).toBe(300)
+      wrapper.vm.spacerMargin = -10
 
-      // resize, height gets bigger
-      window.innerWidth = 65
-      height = 30
-      handler.resize()
+      // any scroll
+      handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
-      updateSizes(12, false)
-
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.spacerMargin).toBe(15000)
-      expect(window.scroll).toBeCalledWith(0, 5220)
+      expect(wrapper.vm.spacerMargin).toBe(300)
+      expect(window.scroll).toBeCalledWith(0, 410)
     })
 
-    it('corrects space margin if its neganive', async () => {
+    it('corrects space margin for the first item', async () => {
       window.scroll = jest.fn()
       window.scrollY = 100
 
@@ -244,6 +270,7 @@ describe('ListScroller component', () => {
       bounds.top = -130
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.spacerMargin).toBe(40)
       wrapper.vm.spacerMargin = 0
@@ -252,32 +279,37 @@ describe('ListScroller component', () => {
       bounds.top = -40
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(2)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.spacerMargin).toBe(0)
       expect(window.scroll).toBeCalledWith(0, 140)
     })
 
     it('corrects height if spacer overflows', async () => {
+      updateSizes(12)
+      await wrapper.vm.$nextTick()
       expect(wrapper.vm.height).toBe(20000)
+
       bounds.bottom = 324
       spacerBounds.bottom = 329
-      handler.scroll()
-      jest.runAllTimers()
-      await wrapper.vm.$nextTick()
-      updateSizes(12)
+      updateSizes(0)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.height).toBe(20005)
     })
 
     it('corrects height if spacer shorter at the end', async () => {
+      updateSizes(12)
+      await wrapper.vm.$nextTick()
       expect(wrapper.vm.height).toBe(20000)
+
       bounds.bottom = 350
       bounds.top = -19990
       spacerBounds.bottom = 330
       handler.scroll()
       jest.runAllTimers()
       await wrapper.vm.$nextTick()
-      updateSizes(13)
+
+      updateSizes(1)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.height).toBe(19980)
     })
@@ -289,7 +321,6 @@ describe('ListScroller component', () => {
       jest.runAllTimers()
       await wrapper.vm.$nextTick()
 
-      window.innerWidth = 65
       height = 30
       handler.resize()
       jest.runAllTimers()
@@ -303,11 +334,13 @@ describe('ListScroller component', () => {
       bounds.top = -3000
       handler.scroll()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
 
       height = 30
       handler.resize()
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -331,6 +364,7 @@ describe('ListScroller component', () => {
     it('updates if itemesData changed', async () => {
       wrapper.setProps({ itemsData: itemsData.slice(0, 100) })
       jest.runAllTimers()
+      updateSizes(12)
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -373,11 +407,19 @@ describe('ListScroller component', () => {
           itemHeight: 30,
         },
       })
+      wrapper.vm.$refs.list.getBoundingClientRect = jest.fn(() => {
+        return { bottom: 0 }
+      })
+      wrapper.vm.$refs.spacer.getBoundingClientRect = jest.fn(() => {
+        return { bottom: 60 }
+      })
     })
 
-    it('renders correctly', () => {
+    it('renders correctly', async () => {
       const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(2)
+      updateSizes(2)
+      await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
   })

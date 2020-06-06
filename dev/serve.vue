@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="box"></div>
     <list-scroller
       :itemComponent="item"
@@ -64,7 +64,12 @@ export default {
   border: solid;
   border-width: 1px;
 }
+
 .list {
   margin-bottom: 1.1em;
+}
+
+.container {
+  overflow-anchor: none;
 }
 </style>
