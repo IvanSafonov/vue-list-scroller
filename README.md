@@ -63,7 +63,7 @@ export default {
 
 # Example
 
-[JSFiddle](http://jsfiddle.net/ivansafonov/85z3q4pv/9/)
+[JSFiddle](https://jsfiddle.net/ivansafonov/3v1n7kxc)
 
 You can clone this project and start example locally with these commands. It's in the dev folder.
 
