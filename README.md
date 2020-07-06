@@ -72,14 +72,16 @@ npm install
 npm run serve
 ```
 
-# Props
+# ListScroller component interface
+
+## Props
 
 * `itemsData`: array of the data that is passed to items
 * `itemHeight`: approximate item height in pixels. it's used only at first rendering
 * `itemComponent`: vue js item component
 * `renderViewports`: height of the rendered part relative to viewport height. For example, if it's set to 5 and window inner height is 400, it will render 800 pixels before and after visible part of the list
 
-# Events
+## Events
 
 * `bottom`: emits when the last item is rendered. Used for infinite scroll
 
@@ -90,6 +92,20 @@ npm run serve
    }
    ```
 
+# Item component interface
+
+## Props
+
+These properties are passed to the item component, all are optional.
+
+* `index (Number)`: index of the item in the itemsData array
+* `data (Object)`: data of the item from itemsData array
+
+## Methods
+
+These methods can be called by the ListScroller, all are optional.
+
+* `onResize()`: called after item resizing
 
 # Similar projects
 
