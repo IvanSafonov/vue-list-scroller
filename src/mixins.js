@@ -15,16 +15,24 @@ const throttled = function (handler, timeout) {
 
 export const event = (event, { target, throttle } = {}) => {
   const funcName = `_${event}Handler`
+  const deactivatedName = `_${event}Deactivated`
   if (!target) target = window
   return {
     mounted() {
-      const handler = throttled(this[event + 'Handler'], throttle)
-      this[funcName] = handler
-      target.addEventListener(event, handler)
+      this[funcName] = throttled(this[event + 'Handler'], throttle)
+      target.addEventListener(event, this[funcName])
     },
     destroyed() {
-      const handler = this[funcName]
-      target.removeEventListener(event, handler)
+      target.removeEventListener(event, this[funcName])
+    },
+    activated() {
+      if (!this[deactivatedName]) return
+      target.addEventListener(event, this[funcName])
+      this[deactivatedName] = false
+    },
+    deactivated() {
+      target.removeEventListener(event, this[funcName])
+      this[deactivatedName] = true
     },
   }
 }

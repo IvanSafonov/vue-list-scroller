@@ -4,6 +4,7 @@ import Item from './item'
 import ResizeObserver from './resizeobserver'
 jest.mock('./resizeobserver')
 import { cloneDeep } from 'lodash'
+import Vue from 'vue'
 
 const updateSizes = (expectedItems, clear = true) => {
   expect(ResizeObserver).toBeCalledTimes(1)
@@ -362,7 +363,7 @@ describe('ListScroller component', () => {
       expect(wrapper.emitted('bottom').length).toBe(1)
     })
 
-    it('updates if itemesData changed', async () => {
+    it('updates if itemsData changed', async () => {
       wrapper.setProps({ itemsData: itemsData.slice(0, 100) })
       jest.runAllTimers()
       updateSizes(12)
@@ -420,6 +421,62 @@ describe('ListScroller component', () => {
       const items = wrapper.findAllComponents(Item)
       expect(items.length).toBe(2)
       updateSizes(2)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.element).toMatchSnapshot()
+    })
+  })
+
+  describe('inside keep-alive', () => {
+    let wrapper
+    beforeEach(() => {
+      height = 30
+      const keepAlive = Vue.component('test', {
+        components: { ScrollerMock },
+        template: `
+        <keep-alive>
+          <ScrollerMock v-if="show" :itemHeight="40" :itemsData="data" :itemComponent="item" />
+        </keep-alive>
+        `,
+        data() {
+          return { item: Item, data: itemsData }
+        },
+        props: { show: { type: Boolean, default: true } },
+      })
+      wrapper = mount(keepAlive)
+    })
+
+    it('removes event listeners while deactivated', async () => {
+      expect(window.addEventListener).toBeCalledTimes(2)
+      const scroll = window.addEventListener.mock.calls[0][1]
+      const resize = window.addEventListener.mock.calls[1][1]
+      expect(window.addEventListener).toBeCalledWith('scroll', scroll)
+      expect(window.addEventListener).toBeCalledWith('resize', resize)
+
+      // deactivating
+      wrapper.setProps({ show: false })
+      await wrapper.vm.$nextTick()
+      expect(window.removeEventListener).toBeCalledTimes(2)
+      expect(window.removeEventListener).toBeCalledWith('scroll', scroll)
+      expect(window.removeEventListener).toBeCalledWith('resize', resize)
+
+      // activating
+      window.addEventListener.mockClear()
+      wrapper.setProps({ show: true })
+      await wrapper.vm.$nextTick()
+      expect(window.addEventListener).toBeCalledTimes(2)
+      expect(window.addEventListener).toBeCalledWith('scroll', scroll)
+      expect(window.addEventListener).toBeCalledWith('resize', resize)
+    })
+
+    it('ignores resize observer while deactivated', async () => {
+      wrapper.setProps({ show: false })
+      await wrapper.vm.$nextTick()
+
+      height = 10
+      updateSizes(6)
+      await wrapper.vm.$nextTick()
+
+      wrapper.setProps({ show: true })
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })

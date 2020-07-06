@@ -156,6 +156,7 @@ export default {
      * Updates average items' height and corrects spacerMargin
      */
     onItemsResize(entities) {
+      if (this.isDeactivated) return
       let { average } = this
       average *= this.heights.size
       let changed = false
@@ -212,8 +213,7 @@ export default {
       const count = Math.round(
         this.renderViewports * Math.ceil(window.innerHeight / this.average),
       )
-      const prevStart = this.start
-      const prevEnd = this.end
+      const { start: prevStart, end: prevEnd } = this
       this.start = Math.max(index, 0)
       this.end = Math.min(this.start + count, this.itemsData.length)
       if (prevStart === this.start && prevEnd === this.end) return
@@ -301,6 +301,14 @@ export default {
 
   beforeDestroy() {
     this.observer.disconnect()
+  },
+
+  activated() {
+    this.isDeactivated = false
+  },
+
+  deactivated() {
+    this.isDeactivated = true
   },
 }
 </script>

@@ -1,5 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ListScroller component inside keep-alive ignores resize observer while deactivated 1`] = `
+<div
+  style="height: 0px; position: relative; overflow: hidden;"
+>
+  <div
+    style="transform: translateY(0px);"
+  >
+    <div
+      data-item-index="0"
+    >
+      0 0
+    </div>
+    <div
+      data-item-index="1"
+    >
+      1 1
+    </div>
+    <div
+      data-item-index="2"
+    >
+      2 2
+    </div>
+    <div
+      data-item-index="3"
+    >
+      3 3
+    </div>
+    <div
+      data-item-index="4"
+    >
+      4 4
+    </div>
+    <div
+      data-item-index="5"
+    >
+      5 5
+    </div>
+  </div>
+</div>
+`;
+
 exports[`ListScroller component with 1000 items corrects spacer margin on scrolling up 1`] = `
 <div
   style="height: 20000px; position: relative; overflow: hidden;"
@@ -254,7 +295,7 @@ exports[`ListScroller component with 1000 items renders first items according to
 </div>
 `;
 
-exports[`ListScroller component with 1000 items updates if itemesData changed 1`] = `
+exports[`ListScroller component with 1000 items updates if itemsData changed 1`] = `
 <div
   style="height: 2000px; position: relative; overflow: hidden;"
 >
