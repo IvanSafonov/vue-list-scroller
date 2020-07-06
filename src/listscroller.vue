@@ -177,6 +177,7 @@ export default {
             this.heights.set(idx, newHeight)
             changed = true
           }
+          if (el.__vue__.onResize) el.__vue__.onResize()
         }
       })
 

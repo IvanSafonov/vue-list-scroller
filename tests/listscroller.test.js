@@ -370,6 +370,13 @@ describe('ListScroller component', () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
+
+    it('calls onResize method after item resize', async () => {
+      const item = wrapper.findAllComponents(Item).at(0).vm
+      item.onResize = jest.fn()
+      updateSizes(12)
+      expect(item.onResize).toBeCalledTimes(1)
+    })
   })
 
   describe('with smaller real item height', () => {
