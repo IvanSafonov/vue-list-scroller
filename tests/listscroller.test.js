@@ -99,6 +99,7 @@ describe('ListScroller component', () => {
         'resize',
         window.addEventListener.mock.calls[1][1],
       )
+      expect(ResizeObserver.mock.instances[0].disconnect).toBeCalledTimes(1)
     })
 
     it('passes data and index to item component', () => {

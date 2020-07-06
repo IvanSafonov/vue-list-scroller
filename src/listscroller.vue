@@ -298,5 +298,9 @@ export default {
     this.observer = new ResizeObserver(this.onItemsResize)
     this.setStart(0)
   },
+
+  beforeDestroy() {
+    this.observer.disconnect()
+  },
 }
 </script>
