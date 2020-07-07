@@ -28,6 +28,8 @@ export default {
     itemComponent: { type: [Object, Function], required: true },
     // Height of rendered part relative to viewport height
     renderViewports: { type: Number, default: 3 },
+    // The name of the item component function that is called on item resize
+    onItemResize: String,
   },
 
   data() {
@@ -177,7 +179,7 @@ export default {
             this.heights.set(idx, newHeight)
             changed = true
           }
-          if (el.__vue__.onResize) el.__vue__.onResize()
+          if (this.onItemResize) el.__vue__[this.onItemResize]()
         }
       })
 

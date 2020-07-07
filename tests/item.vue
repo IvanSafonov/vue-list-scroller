@@ -8,5 +8,8 @@ export default {
     data: Object,
     index: Number,
   },
+  methods: {
+    resized() {},
+  },
 }
 </script>

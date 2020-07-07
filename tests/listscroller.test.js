@@ -370,13 +370,6 @@ describe('ListScroller component', () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
-
-    it('calls onResize method after item resize', async () => {
-      const item = wrapper.findAllComponents(Item).at(0).vm
-      item.onResize = jest.fn()
-      updateSizes(12)
-      expect(item.onResize).toBeCalledTimes(1)
-    })
   })
 
   describe('with smaller real item height', () => {
@@ -486,6 +479,27 @@ describe('ListScroller component', () => {
       wrapper.setProps({ show: true })
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
+    })
+  })
+
+  describe('onItemResize method', () => {
+    let wrapper
+    beforeEach(() => {
+      wrapper = mount(ScrollerMock, {
+        propsData: {
+          itemComponent: Item,
+          itemsData,
+          itemHeight: 20,
+          onItemResize: 'resized',
+        },
+      })
+    })
+
+    it('called after item resize', async () => {
+      const item = wrapper.findAllComponents(Item).at(0).vm
+      item.resized = jest.fn()
+      updateSizes(12)
+      expect(item.resized).toBeCalledTimes(1)
     })
   })
 
